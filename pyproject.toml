@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "replayable-kit"
+version = "0.1.0"
+description = "Explicit dependency recording and deterministic offline replay for Python tests"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [{name = "Ulrich Heringer"}]
+classifiers = ["Programming Language :: Python :: 3", "Typing :: Typed"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.11", "mypy>=1.15", "build>=1.2"]
+redis = ["redis>=5"]
+
+[project.urls]
+Repository = "https://github.com/ulrichheringer/replayable-kit"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/replayable_kit"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+strict = true
+files = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
