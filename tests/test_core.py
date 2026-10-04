@@ -173,6 +173,9 @@ def test_missing_and_malformed_file(tmp_path):
     path = tmp_path / "tape.json"
     with pytest.raises(CassetteError, match="Cannot read"):
         Cassette(path, "replay")
+    path.write_text("{broken", encoding="utf-8")
+    with pytest.raises(CassetteError, match="Cannot read"):
+        Cassette(path, "replay")
 
 
 @pytest.mark.parametrize("different", [True, 1.0])
@@ -184,6 +187,3 @@ def test_argument_matching_preserves_scalar_types(tmp_path, different):
         with pytest.raises(CassetteError, match="does not match"):
             tape.call("typed", different, forbidden)
         assert tape.call("typed", 1, forbidden) == "ok"
-    path.write_text("{broken", encoding="utf-8")
-    with pytest.raises(CassetteError, match="Cannot read"):
-        Cassette(path, "replay")
